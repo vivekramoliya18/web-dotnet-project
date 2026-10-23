@@ -1,0 +1,7 @@
+@model MediCareWeb.Models.Appointment
+@{ ViewData["Title"] = "Complete Patient Visit"; }
+<div class="container py-4"><div class="row justify-content-center"><div class="col-md-8"><div class="card border-0 shadow-sm"><div class="card-body p-4"><h2>Complete Patient Visit</h2><div class="alert alert-light border"><strong>Patient:</strong> @Model.PatientName<br/><strong>Doctor:</strong> @Model.DoctorName<br/><strong>Appointment:</strong> @Model.AppointmentDate.ToString("dd MMM yyyy") at @Model.AppointmentTime<br/><strong>Reason:</strong> @Model.Reason</div>
+<form asp-action="Complete" asp-route-id="@Model.Id" method="post">@Html.AntiForgeryToken()<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+<div class="mb-3"><label for="diagnosis" class="form-label">Diagnosis / Treatment</label><textarea id="diagnosis" name="diagnosis" class="form-control" rows="3" required>@Model.Diagnosis</textarea><span class="text-danger">@Html.ValidationMessage("diagnosis")</span></div>
+<div class="mb-4"><label for="visitNotes" class="form-label">Visit Notes</label><textarea id="visitNotes" name="visitNotes" class="form-control" rows="4">@Model.VisitNotes</textarea></div>
+<button class="btn btn-success">Save & Complete Visit</button> <a asp-action="Index" class="btn btn-outline-secondary">Back</a></form></div></div></div></div></div>

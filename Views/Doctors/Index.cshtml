@@ -1,0 +1,10 @@
+@model IEnumerable<MediCareWeb.Models.Doctor>
+@{ ViewData["Title"] = "Manage Doctors"; }
+<div class="container py-4">
+<div class="d-flex justify-content-between align-items-center mb-4"><div><h2>Manage Doctors</h2><p class="text-muted">Add and maintain clinic doctor records.</p></div><a asp-action="Create" class="btn btn-success">+ Add Doctor</a></div>
+@if (TempData["Success"] != null) { <div class="alert alert-success">@TempData["Success"]</div> }
+<div class="card border-0 shadow-sm"><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead class="table-light"><tr><th>ID</th><th>Doctor</th><th>Specialty</th><th>Phone</th><th>Email</th><th>Actions</th></tr></thead><tbody>
+@foreach (var d in Model) { <tr><td>@d.Id</td><td>@d.FullName</td><td>@d.Specialty</td><td>@d.Phone</td><td>@d.Email</td><td><a asp-action="Edit" asp-route-id="@d.Id" class="btn btn-sm btn-outline-primary">Edit</a> <form asp-action="Delete" asp-route-id="@d.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this doctor?')">@Html.AntiForgeryToken()<button class="btn btn-sm btn-outline-danger">Delete</button></form></td></tr> }
+</tbody></table></div></div>
+@if (!Model.Any()) { <p class="text-center text-muted py-5">No doctors added yet.</p> }
+</div>

@@ -1,0 +1,12 @@
+@model IEnumerable<MediCareWeb.Models.Appointment>
+@{ ViewData["Title"] = "Appointments & Visits"; }
+<div class="container py-4"><div class="d-flex justify-content-between align-items-center mb-4"><div><h2>Appointments & Visits</h2><p class="text-muted">Schedule appointments and record completed visits.</p></div><a asp-action="Create" class="btn btn-success">+ Book Appointment</a></div>
+@if (TempData["Success"] != null) { <div class="alert alert-success">@TempData["Success"]</div> }
+<div class="card border-0 shadow-sm"><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead class="table-light"><tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Reason</th><th>Status</th><th>Visit Details / Actions</th></tr></thead><tbody>
+@foreach (var a in Model) { <tr><td>@a.PatientName</td><td>@a.DoctorName</td><td>@a.AppointmentDate.ToString("dd MMM yyyy")</td><td>@a.AppointmentTime</td><td>@a.Reason</td><td><span class="badge @(a.Status == "Completed" ? "bg-success" : a.Status == "Cancelled" ? "bg-secondary" : "bg-primary")">@a.Status</span></td><td>
+@if (a.Status == "Scheduled") { <a asp-action="Complete" asp-route-id="@a.Id" class="btn btn-sm btn-outline-success">Complete Visit</a> <form asp-action="Cancel" asp-route-id="@a.Id" method="post" class="d-inline">@Html.AntiForgeryToken()<button class="btn btn-sm btn-outline-danger">Cancel</button></form> }
+@if (a.Status == "Completed") { <div><strong>Diagnosis:</strong> @a.Diagnosis<br/><small>@a.VisitNotes</small></div> }
+</td></tr> }
+</tbody></table></div></div>
+@if (!Model.Any()) { <div class="text-center text-muted py-5">No appointments yet. Book an appointment to get started.</div> }
+</div>
